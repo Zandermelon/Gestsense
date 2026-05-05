@@ -17,3 +17,6 @@ class Camera:
         
         def release(self):
                 self.video.release()
+
+        def get_timestamp(self):
+                return self.video.get(cv.CAP_PROP_POS_MSEC)
