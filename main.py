@@ -5,21 +5,30 @@ from landmarker import Landmarker
 cam = Camera(0)
 landmarker = Landmarker(cam)
 
-landmarker.print_result
 
-while True:
-    frame = cam.get_frame()
 
-    if frame is None:
-        break
 
-    cv.imshow("Gestsense", frame)
+try:
+    while True:
+        frame = cam.get_frame()
 
-    if cv.waitKey(1) & 0xFF == ord("q"):
-        break
+        if landmarker.camera.get_frame() is None:
+            continue
 
-cam.release()
-cv.destroyAllWindows()
+        landmarker.process_frame()
+        frame = landmarker.draw_landmarks(landmarker.camera.get_frame())
+
+
+        cv.imshow("Gestsense", frame)
+
+        if cv.waitKey(1) & 0xFF == ord("q"):
+            break
+finally:
+    cam.release()
+    cv.destroyAllWindows()
+
+
+
 
 
 
