@@ -19,19 +19,20 @@ class Landmarker:
         result_callback=self.print_result)
 
         self.camera = camera
+        self.landmarker = HandLandmarker.create_from_options(self.options)
         
             
     # Create a hand landmarker instance with the live stream mode:
-    def print_result(result, output_image, timestamp_ms):
+    def print_result(self, result, output_image, timestamp_ms):
         if result.hand_landmarks:
             print(f"[{timestamp_ms} ms] hands detected: {len(result.hand_landmarks)}")
         else:
             print(f"[{timestamp_ms} ms] no hands")
 
     def process_frame(self):
-        with HandLandmarker.create_from_options(self.options) as landmarker:
+            
             image = mp.Image(image_format=mp.ImageFormat.SRGB, data=self.camera.get_frame())
-            landmarker.detect_async(image,self.camera.get_timestamp())
+            self.landmarker.detect_async(image,self.camera.get_timestamp())
         
         
 
